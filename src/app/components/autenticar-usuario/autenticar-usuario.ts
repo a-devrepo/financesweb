@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
@@ -14,6 +15,10 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 })
 export class AutenticarUsuario {
 
+  private httpClient = inject(HttpClient)
+
+  mensagemErro = signal<string>('');
+
   formulario = new FormGroup(
     {
       email: new FormControl('',Validators.required),
@@ -22,7 +27,20 @@ export class AutenticarUsuario {
   )
 
   autenticar(){
+
     const usuario = this.formulario.getRawValue();
-    console.log(usuario);
+
+    this.httpClient.post('http://localhost:8082/api/v1/usuarios/autenticar', usuario)
+    .subscribe(
+      {
+        next: (data) => {
+          const response = data;
+          console.log(response);
+        },
+        error:(e) => {
+          this.mensagemErro.set(e.error);
+        }
+      }
+    )
   }
 }
