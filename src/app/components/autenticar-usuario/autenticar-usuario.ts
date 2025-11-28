@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-autenticar-usuario',
@@ -16,6 +17,7 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 export class AutenticarUsuario {
 
   private httpClient = inject(HttpClient)
+  private router = inject(Router);
 
   mensagemErro = signal<string>('');
 
@@ -35,7 +37,8 @@ export class AutenticarUsuario {
       {
         next: (data) => {
           const response = data;
-          console.log(response);
+          this.router.navigate(['dashboard']);
+
         },
         error:(e) => {
           this.mensagemErro.set(e.error);
