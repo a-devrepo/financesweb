@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-autenticar-usuario',
@@ -37,7 +38,7 @@ export class AutenticarUsuario {
       {
         next: (data) => {
 
-          sessionStorage.setItem('usuario', JSON.stringify(data));
+          this.atribuirUsuarioSessao(data);
           this.router.navigate(['dashboard']);
 
         },
@@ -46,5 +47,10 @@ export class AutenticarUsuario {
         }
       }
     )
+  }
+
+  private atribuirUsuarioSessao(data: any){
+    const dados = CryptoJS.AES.encrypt(JSON.stringify(data), 'auth').toString();
+    sessionStorage.setItem('usuario', dados);
   }
 }
