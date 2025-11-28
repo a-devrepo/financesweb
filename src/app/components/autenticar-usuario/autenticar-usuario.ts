@@ -36,7 +36,8 @@ export class AutenticarUsuario {
     .subscribe(
       {
         next: (data) => {
-          const response = data;
+
+          sessionStorage.setItem('usuario', JSON.stringify(data));
           this.router.navigate(['dashboard']);
 
         },
