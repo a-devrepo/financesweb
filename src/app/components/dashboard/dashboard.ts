@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
+import CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-dashboard',
@@ -37,7 +38,10 @@ export class Dashboard {
   }
 
   private getUsuarioAutenticado(){
-    return JSON.parse(sessionStorage.getItem('usuario') as string) ;
+    const auth = sessionStorage.getItem('usuario')?.toString();
+    const bytes = CryptoJS.AES.decrypt(auth as string, 'auth');
+    const decryptedData = bytes.toString(CryptoJS.enc.Utf8);
+    return JSON.parse(decryptedData);
   }
 
   private limparSessao(){
