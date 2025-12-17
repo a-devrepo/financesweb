@@ -1,5 +1,4 @@
-<div
-  class="d-flex justify-content-center align-items-center vh-100">
+<div class="d-flex justify-content-center align-items-center vh-100">
   <div
     class="card p-4 shadow-lg bg-body-secondary text-light"
     style="width: 100%; max-width: 380px; border-radius: 16px"
@@ -7,17 +6,36 @@
   >
     <h4 class="text-center mb-3">Login</h4>
 
-    <div *ngIf="mensagemErro()" class="alert alert-danger alert-dismissible fade show" role="alert">
+    <div
+      *ngIf="mensagemErro()"
+      class="alert alert-danger alert-dismissible fade show"
+      role="alert"
+      data-bs-theme="light"
+    >
       <strong>{{ mensagemErro() }}</strong>
-      <button type="button" class="btn-close" aria-label="Fechar" (click)="mensagemErro.set('')"></button>
+      <button
+        type="button"
+        class="btn-close"
+        aria-label="Fechar"
+        (click)="mensagemErro.set('')"
+      ></button>
     </div>
-    <div *ngIf="mensagemSucesso()" class="alert alert-success alert-dismissible fade show" role="alert">
+    <div
+      *ngIf="mensagemSucesso()"
+      class="alert alert-success alert-dismissible fade show"
+      role="alert"
+      data-bs-theme="light"
+    >
       <strong>{{ mensagemSucesso() }}</strong>
-      <button type="button" class="btn-close" aria-label="Fechar" (click)="mensagemSucesso.set('')"></button>
+      <button
+        type="button"
+        class="btn-close"
+        aria-label="Fechar"
+        (click)="mensagemSucesso.set('')"
+      ></button>
     </div>
 
     <form [formGroup]="formulario" (ngSubmit)="criarConta()">
-
       <div class="mb-3">
         <label for="nome" class="form-label">Nome</label>
         <input
@@ -28,6 +46,15 @@
           placeholder="Digite seu nome"
           required
         />
+        @if (formulario.get('nome')?.touched) {
+          @if(formulario.get('nome')?.hasError('required')){
+            <span class="text-danger"> Por favor informe o nome do usuário. </span>
+            } @else if(formulario.get('nome')?.hasError('minlength')){
+              <span class="text-danger">
+              O nome do usuário deve ter pelo menos 6 caracteres.
+              </span>
+        }
+      }
       </div>
 
       <div class="mb-3">
@@ -40,6 +67,15 @@
           placeholder="Digite seu e-mail"
           required
         />
+        @if (formulario.get('email')?.touched) {
+          @if(formulario.get('email')?.hasError('required')){
+            <span class="text-danger"> Por favor informe o email do usuário. </span>
+            } @else if(formulario.get('email')?.hasError('email')){
+              <span class="text-danger">
+              Informe um email válido.
+              </span>
+        }
+      }
       </div>
 
       <div class="mb-3">
@@ -52,10 +88,25 @@
           placeholder="Digite sua senha"
           required
         />
+        @if (formulario.get('senha')?.touched) {
+          @if(formulario.get('senha')?.hasError('required')){
+            <span class="text-danger">
+              Por favor informe a senha do usuário.
+            </span>
+            } @else if(formulario.get('senha')?.hasError('pattern')){
+              <span class="text-danger">
+                A senha deve ter no mínimo 8
+                caracteres e incluir pelo menos uma letra maiúscula,
+                uma minúscula, um número e um caractere especial (@$!%*?&._#^+=-).
+              </span>
+          }
+        }
       </div>
 
       <div class="mb-3">
-        <label for="senhaConfirmacao" class="form-label">Confirme a Senha</label>
+        <label for="senhaConfirmacao" class="form-label"
+          >Confirme a Senha</label
+        >
         <input
           type="password"
           id="senhaConfirmacao"
@@ -64,6 +115,13 @@
           placeholder="Confirme sua Senha"
           required
         />
+        @if (formulario.get('senhaConfirmacao')?.touched) {
+          @if(formulario.get('senhaConfirmacao')?.hasError('required')){
+            <span class="text-danger">
+              Por favor confirme a senha do usuário.
+            </span>
+            }
+        }
       </div>
 
       <button
@@ -74,9 +132,13 @@
         Realizar Cadastro
       </button>
 
-      <div class="text-center"> Já tem conta?
-        <a routerLink="/autenticar-usuario"
-        class="text-info text-decoration-none">Faça o login aqui</a>
+      <div class="text-center">
+        Já tem conta?
+        <a
+          routerLink="/autenticar-usuario"
+          class="text-info text-decoration-none"
+          >Faça o login aqui</a
+        >
       </div>
     </form>
   </div>
