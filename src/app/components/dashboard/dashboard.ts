@@ -18,7 +18,7 @@ export class Dashboard {
   router = inject(Router);
 
   ngOnInit(){
-    this.getNomeUsuario();
+    this.atribuirNomeDoUsuarioAutenticado();
   }
 
   logout(){
@@ -32,9 +32,12 @@ export class Dashboard {
     }
   }
 
-  private getNomeUsuario(){
-    const usuarioAutenticado = this.getUsuarioAutenticado();
-    this.usuario.set(usuarioAutenticado?.nome);
+  private atribuirNomeDoUsuarioAutenticado(){
+    this.usuario.set(this.getNomeUsuarioAutenticado());
+  }
+
+  private getNomeUsuarioAutenticado(){
+    return this.getUsuarioAutenticado()?.nome;
   }
 
   private getUsuarioAutenticado(){
