@@ -1,19 +1,26 @@
-<div
-  class="d-flex justify-content-center align-items-center vh-100"
-  style="background-color: #f8f3e7"
->
+<div class="d-flex justify-content-center align-items-center vh-100">
   <div
-    class="card p-4 shadow-sm"
+    class="card p-4 shadow-lg bg-body-secondary text-light"
     style="width: 100%; max-width: 380px; border-radius: 16px"
-  >
+    data-bs-theme="dark">
+
     <h4 class="text-center mb-3">Login</h4>
 
-    <div *ngIf="mensagemErro()" class="alert alert-danger alert-dismissible fade show" role="alert">
+    <div
+      *ngIf="mensagemErro()"
+      class="alert alert-danger alert-dismissible fade show"
+      role="alert"
+      data-bs-theme="light"
+    >
       <strong>{{ mensagemErro() }}</strong>
-      <button type="button" class="btn-close" aria-label="Fechar" (click)="mensagemErro.set('')"></button>
-  </div>
+      <button
+        type="button"
+        class="btn-close"
+        aria-label="Fechar"
+        (click)="mensagemErro.set('')"
+      ></button>
+    </div>
     <form [formGroup]="formulario" (ngSubmit)="autenticar()">
-      <!-- Email -->
       <div class="mb-3">
         <label for="email" class="form-label">E-mail</label>
         <input
@@ -24,9 +31,17 @@
           placeholder="Digite seu e-mail"
           required
         />
+        @if (formulario.get('email')?.touched) {
+          @if(formulario.get('email')?.hasError('required')){
+            <span class="text-danger"> Por favor informe o email do usuário. </span>
+            } @else if(formulario.get('email')?.hasError('email')){
+              <span class="text-danger">
+              Informe um email válido.
+              </span>
+        }
+      }
       </div>
 
-      <!-- Senha -->
       <div class="mb-3">
         <label for="senha" class="form-label">Senha</label>
         <input
@@ -37,20 +52,26 @@
           placeholder="Digite sua senha"
           required
         />
+        @if (formulario.get('senha')?.touched) {
+          @if(formulario.get('senha')?.hasError('required')){
+            <span class="text-danger">
+              Por favor informe a senha do usuário.
+            </span>
+            }
+        }
       </div>
 
-      <!-- Botão -->
       <button
         type="submit"
         [disabled]="formulario.invalid"
-        class="btn btn-primary w-100 mb-2"
+        class="btn btn-light w-100 mb-2"
       >
         Entrar
       </button>
 
-      <!-- Link criar conta -->
       <div class="text-center">
-        <a routerLink="/criar-usuario" class="text-decoration-none">Criar conta</a>
+        <a routerLink="/criar-usuario" class="text-info text-decoration-none">
+          Criar conta</a>
       </div>
     </form>
   </div>

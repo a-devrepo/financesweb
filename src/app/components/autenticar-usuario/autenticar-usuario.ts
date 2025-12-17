@@ -25,7 +25,7 @@ export class AutenticarUsuario {
 
   formulario = new FormGroup(
     {
-      email: new FormControl('',Validators.required),
+      email: new FormControl('',[Validators.required, Validators.email]),
       senha: new FormControl('',Validators.required),
     }
   )
